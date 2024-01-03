@@ -1,11 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import Registration from './Registration';
+import NavbarCom from './components/NavbarCom';
 
 function App() {
   return (
     <div className="App">
-      <Registration></Registration>
+      {/* <Registration></Registration> */}
+      <NavbarCom></NavbarCom>
     </div>
   );
 }
