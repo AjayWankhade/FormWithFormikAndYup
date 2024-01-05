@@ -10,15 +10,27 @@ function Registration() {
     confirmPassword: "",
   };
 
-  const { values, touched,errors, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues: initialValues,
-    validationSchema: signUpSchema,
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values));
-    },
-  });
-  console.log(errors);
+  const { values, touched, errors, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: signUpSchema,
+      onSubmit: async (values) => {
+        try {
+          const response = await fetch("http://localhost:5000/api/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+          });
 
+          const data = await response.json();
+          console.log(data); // Log the server response
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      },
+    });
   return (
     <div>
       <section className="vh-100 bg-image">
@@ -46,8 +58,9 @@ function Registration() {
                         <label className="form-label" for="name">
                           Your Name
                         </label>
-                        {errors.name && touched.name? (
-                        <p className="form-error">{errors.name}</p>):null}
+                        {errors.name && touched.name ? (
+                          <p className="form-error">{errors.name}</p>
+                        ) : null}
                       </div>
 
                       <div className="form-outline mb-4">
@@ -63,8 +76,9 @@ function Registration() {
                         <label className="form-label" for="email">
                           Your Email
                         </label>
-                        {errors.email && touched.email? (
-                        <p className="form-error">{errors.email}</p>):null}
+                        {errors.email && touched.email ? (
+                          <p className="form-error">{errors.email}</p>
+                        ) : null}
                       </div>
 
                       <div className="form-outline mb-4">
@@ -80,8 +94,9 @@ function Registration() {
                         <label className="form-label" for="password">
                           Password
                         </label>
-                        {errors.password && touched.password? (
-                        <p className="form-error">{errors.password}</p>):null}
+                        {errors.password && touched.password ? (
+                          <p className="form-error">{errors.password}</p>
+                        ) : null}
                       </div>
 
                       <div className="form-outline mb-4">
@@ -97,8 +112,9 @@ function Registration() {
                         <label className="form-label" for="confirmPassword">
                           confirmPassword
                         </label>
-                        {errors.confirmPassword && touched.confirmPassword? (
-                        <p className="form-error">{errors.confirmPassword}</p>):null}
+                        {errors.confirmPassword && touched.confirmPassword ? (
+                          <p className="form-error">{errors.confirmPassword}</p>
+                        ) : null}
                       </div>
 
                       <div className="form-check d-flex justify-content-center mb-5">
